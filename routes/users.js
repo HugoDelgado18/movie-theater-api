@@ -19,13 +19,8 @@ router.get('/:id', async (req, res) => {
 
 router.get('/:id/shows', async (req, res) => {
 
-    // const showsWatched = await Show.findAll({
-    //     where: {
-    //         rating: 5
-    //     }
-    // })
     const certainUser = await User.findOne({where: { id: req.params.id}})
-    // await certainUser.addShow([showsWatched])
+
     res.json(await certainUser.getShows());
 })
 
@@ -34,24 +29,12 @@ router.put('/:id', async (req, res) => {
 
     const certainUser = await User.findByPk(req.params.id)
 
-    
 
-    const updated = await 
-
-
-    // const newShow = await Show.create({
-    //     "title": "King of Queens",
-    //     "genre": "Drama",
-    //     "rating": 5,
-    //     "status": "on-going"
-    //   })
-
-    // await certainUser.addShow(showsWatched)
-
-
-    // res.json(certainUser.getShows())
-    // res.json(showsWatched)
-    res.json(certainUser)
+    if (req.body.title) {
+        const findShow = await Show.findOne({ where: { title: req.body.title }})
+        await certainUser.addShow(findShow)
+        res.json(await certainUser.getShows())
+    }
 })
 
 module.exports = router;
