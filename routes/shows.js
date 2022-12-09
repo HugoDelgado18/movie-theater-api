@@ -59,6 +59,21 @@ router.put('/status/:id', async (req, res) => {
 
 }) 
 
+router.delete('/:id', async (req, res) => {
+
+    const deleteShow = await Show.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+
+    const allShows = await Show.findAll()
+
+    res.json(allShows)
+
+
+})
+
 
 
 // router.post()
