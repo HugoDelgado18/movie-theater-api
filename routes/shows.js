@@ -23,8 +23,7 @@ router.get('/genres/:genre', async (req, res) => {
     res.json(certainShow);
 })
 
-router.put('/:id', async (req, res) => {
-    // const certainShow = await Show.findOne({ where: {id: req.params.id}})
+router.put('/rating/:id', async (req, res) => {
 
     const updated = await Show.update({
         rating: req.body.rating
@@ -40,7 +39,26 @@ router.put('/:id', async (req, res) => {
 
     res.json(certainShow)
 
-})
+}) 
+
+router.put('/status/:id', async (req, res) => {
+
+    const updated = await Show.update({
+        status: req.body.status
+    },
+    {
+        where: {
+            id: req.params.id
+        }
+    }
+    )
+
+    const certainShow = await Show.findOne({ where: {id: req.params.id}})
+
+    res.json(certainShow)
+
+}) 
+
 
 
 // router.post()
