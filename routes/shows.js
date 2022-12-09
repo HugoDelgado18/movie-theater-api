@@ -12,16 +12,36 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-    const certainShow = await Show.findByPk(req.params.id)
+    const certainShow = await Show.findOne({ where: {id: req.params.id}})
 
     res.json(certainShow)
 })
 
-router.get('/:id', async (req, res) => {
-    const showsWatched = await User.findByPk(req.params.id)
+router.get('/genres/:genre', async (req, res) => {
+    const certainShow = await Show.findAll({ where: {genre: req.params.genre}})
 
-    res.json(showsWatched);
+    res.json(certainShow);
 })
+
+router.put('/:id', async (req, res) => {
+    // const certainShow = await Show.findOne({ where: {id: req.params.id}})
+
+    const updated = await Show.update({
+        rating: req.body.rating
+    },
+    {
+        where: {
+            id: req.params.id
+        }
+    }
+    )
+
+    const certainShow = await Show.findOne({ where: {id: req.params.id}})
+
+    res.json(certainShow)
+
+})
+
 
 // router.post()
 
