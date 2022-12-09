@@ -23,7 +23,14 @@ router.get('/genres/:genre', async (req, res) => {
     res.json(certainShow);
 })
 
-router.put('/rating/:id', async (req, res) => {
+router.put('/rating/:id',[
+    check("rating").not().isEmpty().trim()
+], async (req, res) => {
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+       res.json({error: errors.array()})
+    } else {
 
     const updated = await Show.update({
         rating: req.body.rating
@@ -38,10 +45,19 @@ router.put('/rating/:id', async (req, res) => {
     const certainShow = await Show.findOne({ where: {id: req.params.id}})
 
     res.json(certainShow)
+    }
 
 }) 
 
-router.put('/status/:id', async (req, res) => {
+router.put('/status/:id',[
+    check("status").not().isEmpty().trim(),
+    check('status').not().isLength({min: 5, max: 25})
+], async (req, res) => {
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+       res.json({error: errors.array()})
+    } else {
 
     const updated = await Show.update({
         status: req.body.status
@@ -56,6 +72,7 @@ router.put('/status/:id', async (req, res) => {
     const certainShow = await Show.findOne({ where: {id: req.params.id}})
 
     res.json(certainShow)
+    }
 
 }) 
 
